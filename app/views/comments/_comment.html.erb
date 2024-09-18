@@ -5,7 +5,9 @@
     <div class="comment__author flex align-center gap-half">
       <strong><%= comment.creator.name %></strong>
       <%= link_to project_bubble_path(comment.bubble.project, comment.bubble, anchor: "comment_#{comment.id}"), class: "txt-undecorated" do %>
-        <time class="comment__timestamp"><%= comment.created_at.strftime("%b %d").html_safe %></time>
+        <%= tag.time comment.created_at, class: "comment__timestamp" do %>
+          <%= comment.created_at.strftime("%b %d") %>
+        <% end %>
       <% end %>
     </div>
     <div class="comment__body txt-align-start">
