@@ -87,6 +87,11 @@
 
     <hr class="separator--horizontal full-width" style="--border-color: var(--color-subtle);" />
     <%= render "bubbles/pop_toggle", bubble: @bubble %>
+
+    <button class="btn full-width justify-start borderless">
+      <%= image_tag "picture-double.svg", aria: { hidden: true }, size: 24 %>
+      <span>I've seen this</span>
+    </button>
   </div>
 </aside>
 
