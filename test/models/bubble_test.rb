@@ -24,74 +24,46 @@ class BubbleTest < ActiveSupport::TestCase
     assert_not bubbles(:logo).assigned_to?(users(:david))
   end
 
-  test "assigning" do
-    assert_difference %w[ bubbles(:logo).assignees.count Event.count ], +1 do
-      bubbles(:logo).assign users(:david)
-      bubbles(:logo).assign users(:david) # idempotent
-    end
-
-    assert bubbles(:logo).assigned_to?(users(:david))
-    assert_equal "assigned", Event.last.action
-    assert_equal [ users(:david) ], Event.last.assignees
-  end
-
-  test "unassigning" do
-    assert_difference({ "bubbles(:logo).assignees.count" => -1, "Event.count" => +1 }) do
-      bubbles(:logo).unassign users(:kevin)
-      bubbles(:logo).unassign users(:kevin) # idempotent
-    end
-
-    assert_not bubbles(:logo).assigned_to?(users(:kevin))
-    assert_equal "unassigned", Event.last.action
-    assert_equal [ users(:kevin) ], Event.last.assignees
-  end
-
   test "toggling assignment" do
     assert bubbles(:logo).assigned_to?(users(:kevin))
 
-    bubbles(:logo).toggle_assignment users(:kevin)
+    assert_difference({ "bubbles(:logo).assignees.count" => -1, "Event.count" => +1 }) do
+      bubbles(:logo).toggle_assignment users(:kevin)
+    end
     assert_not bubbles(:logo).assigned_to?(users(:kevin))
+    assert_equal "unassigned", Event.last.action
+    assert_equal [ users(:kevin) ], Event.last.assignees
 
-    bubbles(:logo).toggle_assignment users(:kevin)
+    assert_difference %w[ bubbles(:logo).assignees.count Event.count ], +1 do
+      bubbles(:logo).toggle_assignment users(:kevin)
+    end
     assert bubbles(:logo).assigned_to?(users(:kevin))
+    assert_equal "assigned", Event.last.action
+    assert_equal [ users(:kevin) ], Event.last.assignees
   end
 
-  test "tag state" do
+  test "tagging" do
     assert bubbles(:logo).tagged_with?(tags(:web))
     assert_not bubbles(:logo).tagged_with?(tags(:mobile))
   end
 
-  test "tagging" do
-    assert_difference "bubbles(:logo).taggings.count", +1 do
-      bubbles(:logo).tag tags(:mobile)
-      bubbles(:logo).tag tags(:mobile) # idempotent
-    end
+  test "toggling tags" do
+    assert bubbles(:logo).tagged_with?(tags(:web))
 
-    assert bubbles(:logo).tagged_with?(tags(:mobile))
+    assert_difference "bubbles(:logo).taggings.count", -1 do
+      bubbles(:logo).toggle_tag tags(:web)
+    end
+    assert_not bubbles(:logo).tagged_with?(tags(:web))
+
+    assert_difference "bubbles(:logo).taggings.count", +1 do
+      bubbles(:logo).toggle_tag tags(:web)
+    end
+    assert bubbles(:logo).tagged_with?(tags(:web))
 
     assert_difference %w[ bubbles(:logo).taggings.count accounts("37s").tags.count ], +1 do
-      bubbles(:logo).tag Tag.new(title: "prioritized")
+      bubbles(:logo).toggle_tag Tag.new(title: "prioritized")
     end
-
     assert_equal "prioritized", bubbles(:logo).taggings.last.tag.title
-  end
-
-  test "untagging" do
-    assert_difference "bubbles(:logo).taggings.count", -1 do
-      bubbles(:logo).untag tags(:web)
-    end
-
-    assert_not bubbles(:logo).tagged_with?(tags(:web))
-  end
-
-  test "toggling tag" do
-    assert bubbles(:logo).tagged_with?(tags(:web))
-
-    bubbles(:logo).toggle_tag tags(:web)
-    assert_not bubbles(:logo).tagged_with?(tags(:web))
-
-    bubbles(:logo).toggle_tag tags(:web)
-    assert bubbles(:logo).tagged_with?(tags(:web))
   end
 
   test "searchable by title" do

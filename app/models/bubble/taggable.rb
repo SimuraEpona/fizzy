@@ -8,16 +8,6 @@ module Bubble::Taggable
     scope :tagged_with, ->(tags) { joins(:taggings).where(taggings: { tag: tags }) }
   end
 
-  def tag(tag)
-    taggings.create! tag: tag
-  rescue ActiveRecord::RecordNotUnique
-    # Already tagged
-  end
-
-  def untag(tag)
-    taggings.destroy_by tag: tag
-  end
-
   def toggle_tag(tag)
     tagged_with?(tag) ? untag(tag) : tag(tag)
   end
@@ -25,4 +15,15 @@ module Bubble::Taggable
   def tagged_with?(tag)
     tags.include? tag
   end
+
+  private
+    def tag(tag)
+      taggings.create! tag: tag
+    rescue ActiveRecord::RecordNotUnique
+      # Already tagged
+    end
+
+    def untag(tag)
+      taggings.destroy_by tag: tag
+    end
 end
