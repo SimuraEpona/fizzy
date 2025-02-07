@@ -1,7 +1,7 @@
 <% bubble.assignees.each do |assignee| %>
   <article class="bubble__bubble bubble__meta bubble__assignee">
     <div class="btn btn--plain position-relative fill-transparent">
-      <span class="assignee__name"><%= assignee.name %></span>
+      <span class="assignee__name"><span><%= assignee.name %></span></span>
       <%= avatar_image_tag assignee, loading: :lazy, class: "avatar flex-item-no-shrink" %>
       <span class="for-screen-reader">Assigned to <%= assignee.name %></span>
     </div>

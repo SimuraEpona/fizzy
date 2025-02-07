@@ -128,14 +128,14 @@
   &.bubble__assignee {
     aspect-ratio: 1;
     font-size: 4.5cqi;
-    inset: 6cqb auto auto -5cqi;
+    inset: 8em auto auto -1.7em;
     padding: 0.2em;
 
     + & {
-      inset: 1cqb auto auto 9cqi;
+      inset: 4em auto auto -1em;
 
       + & {
-        inset: -1cqb auto auto 25cqi;
+        inset: 1em auto auto 2em;
       }
     }
 
@@ -145,7 +145,7 @@
 
     @media (hover: hover) {
       .windshield .bubble:hover & {
-        transform: translate(1rem, -1rem);
+        transform: translate(0, -1rem);
       }
 
       .windshield .bubble:hover & + & {
@@ -162,12 +162,14 @@
 
       .bubble__perma & {
         color: var(--bubble-color);
-        display: block;
-        font-size: var(--text-medium);
+        display: inline-block;
+        font-size: 0.9em;
         font-weight: normal;
-        inset: -2em auto auto auto;
+        inline-size: 15ch;
+        inset: 0.3em 3.6em auto auto;
         position: absolute;
-        text-align: center;
+        text-align: end;
+        white-space: normal;
       }
     }
   }
