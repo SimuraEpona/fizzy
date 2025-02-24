@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_02_24_111311) do
+ActiveRecord::Schema[8.1].define(version: 2025_02_24_152047) do
   create_table "accesses", force: :cascade do |t|
     t.integer "bucket_id", null: false
     t.integer "user_id", null: false
@@ -240,6 +240,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_02_24_111311) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.string "subscribable_type", null: false
+    t.integer "subscribable_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subscribable_type", "subscribable_id", "user_id"], name: "idx_on_subscribable_type_subscribable_id_user_id_81936d569b", unique: true
+    t.index ["subscribable_type", "subscribable_id"], name: "index_subscriptions_on_subscribable"
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.integer "bubble_id", null: false
     t.integer "tag_id", null: false
@@ -309,6 +320,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_02_24_111311) do
   add_foreign_key "pops", "bubbles"
   add_foreign_key "pops", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "bubbles"
   add_foreign_key "taggings", "tags"
   add_foreign_key "users", "accounts"
