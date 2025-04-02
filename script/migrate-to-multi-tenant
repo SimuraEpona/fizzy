@@ -32,7 +32,7 @@ class EnactTenanting
     693169869 => "dev", # Flower ideas
     693169871 => "dev", # Mike's TODOs
 
-    693169856 => "qa", # QA Exploration
+    693169856 => "qa" # QA Exploration
   }
 
   TENANTS = PROJECT_MAPPING.values.uniq
@@ -60,7 +60,7 @@ class EnactTenanting
 
     update_action_text_urls
 
-    pp ["updated:", update_counter]
+    pp [ "updated:", update_counter ]
 
     hardlink_active_storage
   end
@@ -192,7 +192,7 @@ class EnactTenanting
   end
 
   def cross_check
-    pp ["created:", creation_counter]
+    pp [ "created:", creation_counter ]
 
     with_original_db do
       assert_count User, User.count * TENANTS.length
@@ -235,9 +235,9 @@ class EnactTenanting
       ApplicationRecord.with_tenant(tenant) do
         ActionText::Markdown.all.each do |markdown|
           content = markdown.content
-          next unless content =~ %r(#{CURRENT_DOMAIN}/u/)
+          next unless content =~ %r{#{CURRENT_DOMAIN}/u/}
 
-          content.gsub!(%r(#{CURRENT_DOMAIN}/u/), "#{tenanted_domain}/u/")
+          content.gsub!(%r{#{CURRENT_DOMAIN}/u/}, "#{tenanted_domain}/u/")
 
           markdown.update_column :content, content
           update_counter["ActionText::Markdown"] += 1
