@@ -2,7 +2,7 @@ class Cards::CommentsController < ApplicationController
   include CardScoped
 
   before_action :set_comment, only: %i[ show edit update destroy ]
-  before_action :ensure_authorship, only: %i[ edit update destroy ]
+  before_action :ensure_creatorship, only: %i[ edit update destroy ]
 
   def create
     @card.capture Comment.new(comment_params)
@@ -28,7 +28,7 @@ class Cards::CommentsController < ApplicationController
       @comment = @card.comments.find(params[:id])
     end
 
-    def ensure_authorship
+    def ensure_creatorship
       head :forbidden if Current.user != @comment.creator
     end
 
