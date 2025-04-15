@@ -13,9 +13,7 @@ module Card::Engageable
 
   class_methods do
     def auto_reconsider_all_stagnated
-      stagnated.find_each do |card|
-        card.reconsider
-      end
+      stagnated.find_each(&:reconsider)
     end
   end
 
