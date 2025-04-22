@@ -2,7 +2,7 @@ module NotificationsHelper
   def event_notification_title(event)
     if event.commented?
       "RE: " + event.card.title
-    elsif event.assignment?
+    elsif event.assigned?
       "Assigned to you: " + event.card.title
     else
       event.card.title

@@ -12,7 +12,7 @@ class Event < ApplicationRecord
 
   after_create -> { card.touch(:last_active_at) }
 
-  def assignment?
+  def assigned?
     action == "assigned" || initial_assignment?
   end
 
