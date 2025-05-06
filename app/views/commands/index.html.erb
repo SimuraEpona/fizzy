@@ -1,5 +1,5 @@
 <%= turbo_frame_tag :recent_commands do %>
-  <ol class="terminal__menu flex-column txt-align-start margin-none margin-block-end unpad" aria-label="Recent commands">
+  <ul class="terminal__menu flex-column txt-align-start margin-none margin-block-end unpad" aria-label="Recent commands">
     <%= render partial: "commands/command", collection: @commands %>
-  </ol>
+  </ul>
 <% end %>
