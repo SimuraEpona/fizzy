@@ -13,7 +13,7 @@
         &nbsp;
       <% else %>
         Updated
-        <%= local_datetime_tag(card.updated_at, style: :daysago) %>
+        <%= local_datetime_tag(card.last_active_at, style: :daysago) %>
       <% end %>
     </span>
     <span class="card__meta-item card__meta-item--reported overflow-ellipsis">
