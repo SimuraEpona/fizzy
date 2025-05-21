@@ -1,0 +1,37 @@
+<div class="card-filter--column full-width position-relative" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
+  <button class="cards__heading input input--select borderless" data-action="click->dialog#open:stop">
+    <strong class="overflow-ellipsis">
+      Recently closed
+    </strong>
+  </button>
+
+  <dialog class="events__popup popup panel flex-column align-start gap-half fill-white shadow"
+    aria-label="Closed with reason…" aria-description="Closed with reason…"
+    data-dialog-target="dialog" data-action="turbo:before-cache@document->dialog#close">
+    <strong class="popup__title margin-block-start-half pad-inline-half">Closed with reason…</strong>
+    <%= form_with url: cards_path, method: :get, class: "flex flex-column full-width popup__list",
+          data: { controller: "form" } do |form| %>
+      <% filter.as_params.except(:closure_reason_ids).each do |key, value| %>
+        <%= filter_hidden_field_tag key, value %>
+      <% end %>
+
+      <%= link_to cards_path(filter.as_params.except(:closure_reason_ids)), class: "btn popup__item" do %>
+        <span class="overflow-ellipsis">All recently closed</span>
+      <% end %>
+
+      <% Closure::Reason.all.each do |reason| %>
+        <div class="btn popup__item">
+          <%= form.check_box :closure_reason_ids, {
+                multiple: true,
+                checked: false,
+                data: { action: "change->form#submit" },
+                include_hidden: false,
+          }, reason.label %>
+
+          <%= form.label :closure_reason_ids, reason.label, for: form.field_id(:closure_reason_ids, reason.label), class: "overflow-ellipsis" %>
+          <%= icon_tag "check", size: 18, class: "checked flex-item-justify-end" %>
+        </div>
+      <% end %>
+    <% end %>
+  </dialog>
+</div>

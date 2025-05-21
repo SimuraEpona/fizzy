@@ -1,7 +1,5 @@
 <section id="closed-cards" class="cards cards--closed">
-  <h2 class="cards__heading">
-    Recently closed
-  </h2>
+  <%= render "cards/index/closure_filter", filter: filter %>
 
   <% if page.used? %>
     <%= render partial: "cards/display/preview", collection: page.records, as: :card, cached: true %>

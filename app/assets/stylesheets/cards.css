@@ -69,6 +69,11 @@
     margin-block-start: calc(-1 * var(--card-padding-block));
     margin-inline-start: calc(-1 * var(--card-padding-inline));
     min-inline-size: 0;
+
+    .cards--considering & {
+      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+      margin: 0 0 calc(-0.5 * var(--card-padding-inline)) 0;
+    }
   }
 
   .card__collection {
@@ -78,6 +83,12 @@
     font-weight: 800;
     padding: var(--block-space-half) var(--inline-space) var(--block-space-half) var(--inline-space-double);
     text-transform: uppercase;
+
+    .cards--considering & {
+      background-color: var(--color-canvas);
+      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+      padding: 0 0 0 var(--inline-space);
+    }
   }
 
   .card__id {
@@ -96,6 +107,11 @@
     display: inline-flex;
     margin-inline-start: var(--inline-space-half);
     padding-inline-start: calc(var(--inline-space) * 0.75);
+
+    .cards--considering & {
+      border-inline-start: 1px solid color-mix(in srgb, var(--color-ink) 33%, var(--color-canvas));
+      color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));
+    }
   }
 
   .card__tags {
@@ -148,12 +164,7 @@
     font-size: var(--text-xx-large);
     font-weight: 900;
     line-height: 1.2;
-    min-block-size: 3lh;
     text-wrap: balance;
-
-    .card-perma__bg & {
-      min-block-size: unset;
-    }
 
     .card-field__title {
       &:is(textarea)::placeholder {
@@ -256,7 +267,7 @@
     inset: auto var(--block-space) var(--block-space-double) auto;
     justify-content: center;
     max-inline-size: 25ch;
-    min-inline-size: 18ch;
+    min-inline-size: 16ch;
     mix-blend-mode: multiply;
     padding: 1ch;
     position: absolute;
@@ -273,7 +284,7 @@
   }
 
   .card__closed-title {
-    font-size: 1.5em;
+    font-size: 1.3em;
     font-weight: 900;
     line-height: 1.2;
     position: relative;
