@@ -1,17 +1,12 @@
 <section id="doing-cards" class="cards cards--doing" style="view-transition-name: cards-container;">
-  <% if workflow = filter.single_workflow %>
-    <%= render "cards/index/workflow_filter", workflow: workflow, filter: filter %>
-  <% else %>
-    <h2 class="cards__heading">
-      Doing
-    </h2>
-  <% end %>
+  <h2 class="cards__heading">
+    Doing
+  </h2>
 
   <% if page.used? %>
     <%= render partial: "cards/display/preview", collection: page.records, as: :card, cached: ->(card) { cacheable_preview_parts_for(card) } %>
 
     <% unless page.last? %>
-      <%= cards_next_page_link "doing-cards", page: page, filter: filter %>
     <% end %>
   <% else %>
     <p class="txt-medium translucent">Nothing here</p>

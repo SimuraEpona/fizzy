@@ -8,31 +8,13 @@ class Public::CollectionsController < ApplicationController
   PAGE_SIZE = 50
 
   def show
-    @filter = Current.user.filters.build(collection_ids: [ @collection.id ])
-
-    @considering = page_and_filter_for @filter.with(engagement_status: "considering"), per_page: PAGE_SIZE
-    @doing = page_and_filter_for @filter.with(engagement_status: "doing"), per_page: PAGE_SIZE
-    @closed = page_and_filter_for_closed_cards
+    @considering = set_page_and_extract_portion_from @collection.cards.considering.latest, per_page: PAGE_SIZE
+    @doing = set_page_and_extract_portion_from @collection.cards.doing.latest, per_page: PAGE_SIZE
+    @closed = set_page_and_extract_portion_from @collection.cards.closed.recently_closed_first, per_page: PAGE_SIZE
   end
 
   private
     def set_collection
       @collection = Collection.find_by_published_key(params[:id])
-    end
-
-    def page_and_filter_for(filter, per_page: nil)
-      cards = block_given? ? yield(filter.cards) : filter.cards
-
-      OpenStruct.new \
-        page: GearedPagination::Recordset.new(cards, per_page:).page(1),
-        filter: filter
-    end
-
-    def page_and_filter_for_closed_cards
-      if @filter.indexed_by.stalled?
-        page_and_filter_for(@filter, per_page: PAGE_SIZE) { |cards| cards.recently_closed_first }
-      else
-        page_and_filter_for(@filter.with(indexed_by: "closed"), per_page: PAGE_SIZE) { |cards| cards.recently_closed_first }
-      end
     end
 end

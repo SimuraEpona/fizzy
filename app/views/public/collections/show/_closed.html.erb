@@ -1,11 +1,8 @@
 <section id="closed-cards" class="cards cards--closed">
-  <%= render "cards/index/closure_filter", filter: filter %>
-
   <% if page.used? %>
     <%= render partial: "cards/display/preview", collection: page.records, as: :card, cached: true %>
 
     <% unless page.last? %>
-      <%= cards_next_page_link "closed-cards", page: page, filter: filter, fetch_on_visible: true %>
     <% end %>
   <% else %>
     <p class="txt-medium translucent">Nothing here</p>
