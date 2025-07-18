@@ -14,8 +14,6 @@ class Search
   end
 
   def results
-    return Search::Result.none unless query.valid?
-
     cards = user.accessible_cards.search(query)
       .select([
         "cards.id as card_id",

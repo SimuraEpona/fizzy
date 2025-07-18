@@ -35,7 +35,8 @@ class Command::Parser::Context
     if string.starts_with?("gid://")
       User.find_by_id(GlobalID::Locator.locate(string).id)
     else
-      User.all.find { |user| user.mentionable_handles.include?(string.downcase) }
+      string = string.downcase
+      User.all.find { |user| user.name.downcase == string || user.mentionable_handles.include?(string) }
     end
   end
 
@@ -60,6 +61,10 @@ class Command::Parser::Context
 
   def filter
     user.filters.from_params(params.permit(*Filter::Params::PERMITTED_PARAMS).reverse_merge(**FilterScoped::DEFAULT_PARAMS))
+  end
+
+  def candidate_stages
+    Workflow::Stage.where(workflow_id: cards.joins(:collection).select("collections.workflow_id").distinct)
   end
 
   private
@@ -87,9 +92,5 @@ class Command::Parser::Context
       @controller = route[:controller]
       @action = route[:action]
       @params =  ActionController::Parameters.new(Rack::Utils.parse_nested_query(uri.query).merge(route.except(:controller, :action)))
-    end
-
-    def candidate_stages
-      Workflow::Stage.where(workflow_id: cards.joins(:collection).select("collections.workflow_id").distinct)
     end
 end

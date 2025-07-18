@@ -25,7 +25,7 @@
         {
           "type": "template",
           "name": "searches/show",
-          "line": 25,
+          "line": 28,
           "file": "app/views/searches/show.html.erb",
           "rendered": {
             "name": "searches/_result",
@@ -74,7 +74,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/concerns/searchable.rb",
-      "line": 36,
+      "line": 28,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "joins(\"join #{using} idx on #{table_name}.id = idx.rowid\")",
       "render_path": null,
@@ -85,6 +85,29 @@
       },
       "user_input": "using",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "49f2925b6e92d95f3dc5c423e92250badafc6a12e90983a35c441b3459796870",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/concerns/searchable.rb",
+      "line": 31,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "joins(\"join #{using} idx on #{table_name}.id = idx.rowid\").where(\"#{using} match ?\", Search::Query.wrap(query).to_s)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Searchable",
+        "method": "searchable_by"
+      },
+      "user_input": "using",
+      "confidence": "Weak",
       "cwe_id": [
         89
       ],
@@ -115,7 +138,7 @@
         {
           "type": "template",
           "name": "searches/show",
-          "line": 25,
+          "line": 28,
           "file": "app/views/searches/show.html.erb",
           "rendered": {
             "name": "searches/_result",
@@ -182,7 +205,7 @@
         {
           "type": "template",
           "name": "searches/show",
-          "line": 25,
+          "line": 28,
           "file": "app/views/searches/show.html.erb",
           "rendered": {
             "name": "searches/_result",

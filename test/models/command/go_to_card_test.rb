@@ -22,6 +22,6 @@ class Command::GoToCardTest < ActionDispatch::IntegrationTest
 
     result = command.execute
     assert_equal 1, result.size
-    assert_equal cards_path(terms: [ "123" ]), result.first.url
+    assert_equal search_path(q: "123"), result.first.url
   end
 end

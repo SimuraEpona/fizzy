@@ -24,10 +24,13 @@ module Searchable
 
       scope :search, ->(query) do
         query = Search::Query.wrap(query)
+
+        base = joins("join #{using} idx on #{table_name}.id = idx.rowid")
+
         if query.valid?
-          joins("join #{using} idx on #{table_name}.id = idx.rowid").where("#{using} match ?", query.to_s)
+          base.where("#{using} match ?", query.to_s)
         else
-          none
+          base.none
         end
       end
     end
