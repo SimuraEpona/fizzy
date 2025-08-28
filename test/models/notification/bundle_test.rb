@@ -23,7 +23,7 @@ class Notification::BundleTest < ActiveSupport::TestCase
     notification_2 = assert_no_difference -> { @user.notification_bundles.count } do
       @user.notifications.create!(source: events(:logo_published), creator: @user)
     end
-    travel_to 3.hours.from_now
+    travel_to 3.days.from_now
 
     notification_3 = assert_difference -> { @user.notification_bundles.pending.count }, 1 do
       @user.notifications.create!(source: events(:logo_published), creator: @user)
@@ -84,7 +84,7 @@ class Notification::BundleTest < ActiveSupport::TestCase
 
     bundle.update!(ends_at: 1.minute.ago)
 
-    perform_enqueued_jobs do
+    perform_enqueued_jobs only: Notification::Bundle::DeliverJob do
       Notification::Bundle.deliver_all
     end
 
@@ -98,7 +98,7 @@ class Notification::BundleTest < ActiveSupport::TestCase
 
     bundle.update!(ends_at: 1.minute.from_now)
 
-    perform_enqueued_jobs do
+    perform_enqueued_jobs only: Notification::Bundle::DeliverJob do
       Notification::Bundle.deliver_all
     end
 

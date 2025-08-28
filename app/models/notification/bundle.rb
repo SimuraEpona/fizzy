@@ -48,11 +48,9 @@ class Notification::Bundle < ApplicationRecord
   end
 
   private
-    AGGREGATION_PERIOD = 4.hours
-
     def set_default_window
       self.starts_at ||= Time.current
-      self.ends_at ||= AGGREGATION_PERIOD.from_now
+      self.ends_at ||= user.settings.bundle_aggregation_period.from_now
     end
 
     def window
