@@ -7,6 +7,23 @@ export default class extends Controller {
   static values = { url: String }
   static classes = [ "draggedItem", "hoverContainer" ]
 
+  connect() {
+    this.audioFiles = [
+      "/audio/B3.mp3",
+      "/audio/C3.mp3",
+      "/audio/D4.mp3",
+      "/audio/E3.mp3",
+      "/audio/Fsharp4.mp3",
+      "/audio/G3.mp3"
+    ]
+
+    this.preloadedAudioFiles = this.audioFiles.map(file => {
+      const audio = new Audio(file)
+      audio.load()
+      return audio
+    });
+  }
+
   // Actions
 
   async dragStart(event) {
@@ -29,6 +46,18 @@ export default class extends Controller {
 
     if (container !== this.sourceContainer) {
       container.classList.add(this.hoverContainerClass)
+    }
+  }
+
+  dragEnter(event) {
+    event.preventDefault()
+    const container = this.#containerContaining(event.target)
+    this.#clearContainerHoverClasses()
+
+    if (!container) { return }
+
+    if (container !== this.sourceContainer) {
+      this.#playZither()
     }
   }
 
@@ -65,6 +94,13 @@ export default class extends Controller {
 
   #clearContainerHoverClasses() {
     this.containerTargets.forEach(container => container.classList.remove(this.hoverContainerClass))
+  }
+
+  #playZither() {
+    const randomIndex = Math.floor(Math.random() * this.preloadedAudioFiles.length)
+    const audio = this.preloadedAudioFiles[randomIndex]
+    const audioInstance = new Audio(audio.src)
+    audioInstance.play()
   }
 
   // Private
