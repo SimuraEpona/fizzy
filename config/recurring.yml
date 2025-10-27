@@ -1,10 +1,10 @@
 production: &production
-  # Application functionality: notifications and highlights
+  # Application functionality: notifications and summaries
   deliver_bundled_notifications:
     command: "Notification::Bundle.deliver_all_later"
     schedule: every 30 minutes
-  generate_weekly_highlights:
-    command: "User.generate_all_weekly_highlights_later"
+  generate_weekly_summaries:
+    command: "User.generate_all_weekly_summaries_later"
     schedule: every sunday at noon
 
   # Application cleanup

@@ -957,7 +957,7 @@ columns:
   - *30
   - *9
   - *18
-  period_highlights:
+  period_summaries:
   - &35 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: content
@@ -1213,12 +1213,12 @@ columns:
     comment:
   - *9
   - *18
-  user_weekly_highlights:
+  user_weekly_summaries:
   - *5
   - *6
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
-    name: period_highlights_id
+    name: period_summary_id
     cast_type: *3
     sql_type_metadata: *4
     'null': false
@@ -1458,7 +1458,7 @@ primary_keys:
   mentions: id
   notification_bundles: id
   notifications: id
-  period_highlights: id
+  period_summaries: id
   pins: id
   push_subscriptions: id
   reactions: id
@@ -1471,7 +1471,7 @@ primary_keys:
   taggings: id
   tags: id
   user_settings: id
-  user_weekly_highlights: id
+  user_weekly_summaries: id
   users: id
   watches: id
   webhook_delinquency_trackers: id
@@ -1511,7 +1511,7 @@ data_sources:
   mentions: true
   notification_bundles: true
   notifications: true
-  period_highlights: true
+  period_summaries: true
   pins: true
   push_subscriptions: true
   reactions: true
@@ -1524,7 +1524,7 @@ data_sources:
   taggings: true
   tags: true
   user_settings: true
-  user_weekly_highlights: true
+  user_weekly_summaries: true
   users: true
   watches: true
   webhook_delinquency_trackers: true
@@ -2615,9 +2615,9 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-  period_highlights:
+  period_summaries:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: period_highlights
+    table: period_summaries
     name: index_period_highlights_on_key_and_starts_at_and_duration
     unique: true
     columns:
@@ -2989,13 +2989,13 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-  user_weekly_highlights:
+  user_weekly_summaries:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: user_weekly_highlights
-    name: index_user_weekly_highlights_on_period_highlights_id
+    table: user_weekly_summaries
+    name: index_user_weekly_summaries_on_period_summary_id
     unique: false
     columns:
-    - period_highlights_id
+    - period_summary_id
     lengths: {}
     orders: {}
     opclasses: {}
@@ -3007,8 +3007,8 @@ indexes:
     comment:
     valid: true
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: user_weekly_highlights
-    name: index_user_weekly_highlights_on_user_id
+    table: user_weekly_summaries
+    name: index_user_weekly_summaries_on_user_id
     unique: false
     columns:
     - user_id
@@ -3023,8 +3023,8 @@ indexes:
     comment:
     valid: true
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: user_weekly_highlights
-    name: index_user_weekly_highlights_on_user_id_and_starts_at
+    table: user_weekly_summaries
+    name: index_user_weekly_summaries_on_user_id_and_starts_at
     unique: true
     columns:
     - user_id
@@ -3188,4 +3188,4 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-version: 20251016153034
+version: 20251025174618

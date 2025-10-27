@@ -2,8 +2,8 @@
 # and a set of collections. We only store a key derived from the accessible events for those collections,
 # so that we reuse the same summary for users with different time zones or different accesses as long as the activity
 # is the same. This is important to keep AI costs down.
-class PeriodHighlights < ApplicationRecord
-  has_many :weekly_highlights, class_name: "User::WeeklyHighlights"
+class PeriodSummary < ApplicationRecord
+  has_many :weekly_summaries, class_name: "User::WeeklySummary"
 
   class << self
     def create_or_find_for(collections, starts_at:, duration: 1.week)

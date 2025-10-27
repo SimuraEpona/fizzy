@@ -1,4 +1,4 @@
-class PeriodHighlights::Period
+class PeriodSummary::Period
   MIN_EVENTS_TO_BE_INTERESTING = 7
 
   attr_reader :collections, :starts_at, :duration

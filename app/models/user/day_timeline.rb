@@ -29,12 +29,12 @@ class User::DayTimeline
     day.yesterday.beginning_of_day
   end
 
-  def has_weekly_highlights?
-    !filter.used? && first_day_with_activity_this_week? && weekly_highlights.present?
+  def has_weekly_summary?
+    !filter.used? && first_day_with_activity_this_week? && weekly_summary.present?
   end
 
-  def weekly_highlights
-    @weekly_highlights ||= user.weekly_highlights_for(week_starts_at)
+  def weekly_summary
+    @weekly_summary ||= user.weekly_summary_for(week_starts_at)
   end
 
   def week_starts_at
@@ -46,7 +46,7 @@ class User::DayTimeline
   end
 
   def cache_key
-    ActiveSupport::Cache.expand_cache_key [ user, filter, day.to_date, events, weekly_highlights ], "day-timeline"
+    ActiveSupport::Cache.expand_cache_key [ user, filter, day.to_date, events, weekly_summary ], "day-timeline"
   end
 
   private

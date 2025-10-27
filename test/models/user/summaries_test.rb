@@ -1,6 +1,6 @@
 require "test_helper"
 
-class User::HighlightsTest < ActiveSupport::TestCase
+class User::SummariesTest < ActiveSupport::TestCase
   include VcrTestHelper
 
   setup do
@@ -9,26 +9,26 @@ class User::HighlightsTest < ActiveSupport::TestCase
     Current.session = sessions(:david)
   end
 
-  test "generate weekly highlights" do
-    stub_const(PeriodHighlights::Period, :MIN_EVENTS_TO_BE_INTERESTING, 3) do
-      period_highlights = assert_difference -> { PeriodHighlights.count }, 1 do
-        @user.generate_weekly_highlights
+  test "generate weekly summary" do
+    stub_const(PeriodSummary::Period, :MIN_EVENTS_TO_BE_INTERESTING, 3) do
+      period_summary = assert_difference -> { PeriodSummary.count }, 1 do
+        @user.generate_weekly_summary
       end
 
-      assert_match /logo/i, period_highlights.to_html
+      assert_match /logo/i, period_summary.to_html
     end
   end
 
-  test "don't generate highlights for existing periods" do
-    stub_const(PeriodHighlights::Period, :MIN_EVENTS_TO_BE_INTERESTING, 3) do
-      new_period_highlights = @user.generate_weekly_highlights
-      assert_not_nil new_period_highlights
+  test "don't generate summary for existing periods" do
+    stub_const(PeriodSummary::Period, :MIN_EVENTS_TO_BE_INTERESTING, 3) do
+      new_period_summary = @user.generate_weekly_summary
+      assert_not_nil new_period_summary
 
-      existing_period_highlights = assert_no_difference -> { PeriodHighlights.count } do
-        @user.generate_weekly_highlights
+      existing_period_summary = assert_no_difference -> { PeriodSummary.count } do
+        @user.generate_weekly_summary
       end
 
-      assert_equal new_period_highlights, existing_period_highlights
+      assert_equal new_period_summary, existing_period_summary
     end
   end
 
@@ -53,7 +53,7 @@ class User::HighlightsTest < ActiveSupport::TestCase
 
     # The period should start at Sunday in NYC timezone
     period_start = wednesday.in_time_zone("America/New_York").beginning_of_week(:sunday)
-    period = PeriodHighlights::Period.new(@user.collections, starts_at: period_start, duration: 1.week)
+    period = PeriodSummary::Period.new(@user.collections, starts_at: period_start, duration: 1.week)
 
     # The Saturday event should NOT be included (it's in the previous week in NYC time)
     assert_not_includes period.events, saturday_event

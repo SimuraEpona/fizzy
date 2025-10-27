@@ -1,4 +1,4 @@
-<% if day_timeline.has_weekly_highlights? %>
+<% if day_timeline.has_weekly_summary? %>
   <h2 class="events__day-header">
     <span class="events__day-time min-width max-width">
       <span class="overflow-ellipsis">
@@ -12,7 +12,7 @@
 
   <div class="events__activity-summary txt-small">
     <div>
-      <%= day_timeline.weekly_highlights.to_html %>
+      <%= day_timeline.weekly_summary.to_html %>
 
       <% if Current.user.staff? %>
         <%= link_to admin_prompt_sandbox_path(day: day_timeline.day), class: "btn txt-xx-small events__activity-prompt-edit" do %>

@@ -1,9 +1,9 @@
-class User::Highlights::GenerateAllJob < ApplicationJob
+class User::Summaries::GenerateAllJob < ApplicationJob
   queue_as :backend
 
   def perform
     ApplicationRecord.with_each_tenant do |tenant|
-      User.generate_all_weekly_highlights
+      User.generate_all_weekly_summaries
     end
   end
 end

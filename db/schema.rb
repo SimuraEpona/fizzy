@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_10_16_153034) do
+ActiveRecord::Schema[8.2].define(version: 2025_10_25_174618) do
   create_table "accesses", force: :cascade do |t|
     t.datetime "accessed_at"
     t.integer "collection_id", null: false
@@ -325,7 +325,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_10_16_153034) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
-  create_table "period_highlights", force: :cascade do |t|
+  create_table "period_summaries", force: :cascade do |t|
     t.text "content", null: false
     t.bigint "cost_in_microcents"
     t.datetime "created_at", null: false
@@ -433,15 +433,15 @@ ActiveRecord::Schema[8.2].define(version: 2025_10_16_153034) do
     t.index ["user_id"], name: "index_user_settings_on_user_id"
   end
 
-  create_table "user_weekly_highlights", force: :cascade do |t|
+  create_table "user_weekly_summaries", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.integer "period_highlights_id", null: false
+    t.integer "period_summary_id", null: false
     t.date "starts_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
-    t.index ["period_highlights_id"], name: "index_user_weekly_highlights_on_period_highlights_id"
-    t.index ["user_id", "starts_at"], name: "index_user_weekly_highlights_on_user_id_and_starts_at", unique: true
-    t.index ["user_id"], name: "index_user_weekly_highlights_on_user_id"
+    t.index ["period_summary_id"], name: "index_user_weekly_summaries_on_period_summary_id"
+    t.index ["user_id", "starts_at"], name: "index_user_weekly_summaries_on_user_id_and_starts_at", unique: true
+    t.index ["user_id"], name: "index_user_weekly_summaries_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -530,8 +530,8 @@ ActiveRecord::Schema[8.2].define(version: 2025_10_16_153034) do
   add_foreign_key "taggings", "cards"
   add_foreign_key "taggings", "tags"
   add_foreign_key "user_settings", "users"
-  add_foreign_key "user_weekly_highlights", "period_highlights", column: "period_highlights_id"
-  add_foreign_key "user_weekly_highlights", "users"
+  add_foreign_key "user_weekly_summaries", "period_summaries"
+  add_foreign_key "user_weekly_summaries", "users"
   add_foreign_key "watches", "cards"
   add_foreign_key "watches", "users"
   add_foreign_key "webhook_delinquency_trackers", "webhooks"
