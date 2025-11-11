@@ -1,16 +1,5 @@
 <%= turbo_frame_tag "my_menu", target: "_top" do %>
-  <%= render "my/menus/jump" %>
-
-  <div class="nav__scroll-container">
-    <div class="nav__hotkeys margin-block-end-half" role="list">
-      <%= filter_hotkey_link "Home", root_path, 1, "home" %>
-      <%= filter_hotkey_link "Assigned to me", cards_path(assignee_ids: [Current.user.id]), 2, "clipboard" %>
-      <%= filter_hotkey_link "Added by me", cards_path(creator_ids: [Current.user.id]), 3, "person-add" %>
-      <%= filter_hotkey_link "Notifications", notifications_path, 4, "bell" %>
-      <%= filter_hotkey_link "My Profile", user_path(Current.user), 5, "person" %>
-      <%= filter_hotkey_link "Settings", account_settings_path, 6, "settings" %>
-    </div>
-
+  <%= render "my/menus/jump" do %>
     <%= collapsible_nav_section "Saved filters", id: "my-filters" do %>
       <%= form_with url: cards_path, method: :get, data: { controller: "form" } do |form| %>
         <li class="popup__item overflow-ellipsis" data-navigable-list-target="item" data-filter-target="item" id="filter-custom-create">
@@ -73,7 +62,7 @@
     <% end %>
 
     <%= turbo_frame_tag Current.identity, :account_menu, src: session_menu_url(script_name: nil, menu_section: true, without: ApplicationRecord.current_tenant) %>
-  </div>
+  <% end %>
 
   <footer class="nav__footer">
     <strong><%= link_to "Fizzy", "https://www.fizzy.do", class: "txt-ink", target: "_blank" %></strong> is designed, built, and backed by <strong class="txt-nowrap"><%= icon_tag "37signals", class: "v-align-middle", target: "_blank" %> <a href="https://37signals.com" target="_blank" class="txt-ink">37signals</a></strong>
