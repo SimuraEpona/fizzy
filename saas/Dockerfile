@@ -8,7 +8,9 @@ WORKDIR /rails
 # Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
+    SAAS="1" \
     BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_GEMFILE="Gemfile.saas" \
     BUNDLE_WITHOUT="development"
 
 
@@ -21,7 +23,7 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install application gems
-COPY Gemfile Gemfile.lock .ruby-version ./
+COPY Gemfile Gemfile.lock Gemfile.saas Gemfile.saas.lock .ruby-version ./
 COPY lib/fizzy.rb ./lib/fizzy.rb
 COPY gems ./gems/
 RUN --mount=type=secret,id=GITHUB_TOKEN --mount=type=cache,id=fizzy-permabundle-${RUBY_VERSION},sharing=locked,target=/permabundle \
