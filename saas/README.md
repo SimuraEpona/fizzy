@@ -18,7 +18,7 @@ Then you can work do [Fizzy development as usual](https://github.com/basecamp/fi
 
 ## Environments
 
-Fizzy is deployed with Kamal. You'll need to have the 1Password CLI set up in order to access the secrets that are used when deploying. Provided you have that, it should be as simple as `bin/kamal deploy` to the correct environment.
+Fizzy is deployed with [Kamal](https://kamal-deploy.org/). You'll need to have the 1Password CLI set up in order to access the secrets that are used when deploying. Provided you have that, it should be as simple as `bin/kamal deploy` to the correct environment.
 
 ### Beta
 
