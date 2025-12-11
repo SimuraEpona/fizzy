@@ -9,6 +9,15 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "new redirects authenticated users" do
+    sign_in_as :kevin
+
+    untenanted do
+      get new_session_path
+      assert_redirected_to root_url
+    end
+  end
+
   test "create" do
     identity = identities(:kevin)
 
