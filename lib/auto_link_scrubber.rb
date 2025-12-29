@@ -46,7 +46,7 @@ class AutoLinkScrubber < Loofah::Scrubber
 
       links.each do |link|
         nodes << doc.create_text_node(text[pos...link[:start]]) if link[:start] > pos
-        nodes << doc.create_element("a", link[:text], href: link[:href], rel: "noreferrer")
+        nodes << doc.create_element("a", link[:text], href: link[:href], rel: "noopener noreferrer")
         pos = link[:start] + link[:length]
       end
       nodes << doc.create_text_node(text[pos..]) if pos < text.length
