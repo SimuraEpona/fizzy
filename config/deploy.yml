@@ -42,9 +42,7 @@ env:
 
 # Use a local registry to deploy
 registry:
-  username: simuraepona
-  password:
-    - KAMAL_REGISTRY_PASSWORD
+  server: localhost:5555
 
 # Handy aliases for interacting with your deployment. For eaxmple: `bin/kamal console` will connect to a
 # Rails console in production.
