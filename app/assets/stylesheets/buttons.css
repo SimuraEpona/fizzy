@@ -27,8 +27,14 @@
       }
     }
 
-    @media (prefers-color-scheme: dark) {
+    html[data-theme="dark"] & {
       --btn-hover-brightness: 1.25;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]) & {
+        --btn-hover-brightness: 1.25;
+      }
     }
 
     &[disabled],
@@ -101,13 +107,22 @@
     > * {
       grid-area: 1/1;
     }
+
+    @media (max-width: 639px) {
+      --btn-size: 3em;
+      --icon-size: 75%;
+    }
   }
 
   /* Make a normal button circular on mobile */
   @media (max-width: 639px) {
     .btn--circle-mobile {
+      --btn-size: 3em;
+      --btn-padding: 0;
+      --icon-size: 75%;
+
       aspect-ratio: 1;
-      padding: 0.5em;
+      inline-size: var(--btn-size);
 
       kbd,
       span:last-of-type {
@@ -264,4 +279,3 @@
     }
   }
 }
-

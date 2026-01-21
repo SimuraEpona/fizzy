@@ -1,7 +1,7 @@
 class Account < ApplicationRecord
-  include Entropic, Seedeable
+  include Account::Storage, Cancellable, Entropic, Incineratable, MultiTenantable, Seedeable
 
-  has_one :join_code
+  has_one :join_code, dependent: :destroy
   has_many :users, dependent: :destroy
   has_many :boards, dependent: :destroy
   has_many :cards, dependent: :destroy
@@ -19,7 +19,7 @@ class Account < ApplicationRecord
     def create_with_owner(account:, owner:)
       create!(**account).tap do |account|
         account.users.create!(role: :system, name: "System")
-        account.users.create!(**owner.reverse_merge(role: "owner", verified_at: Time.current))
+        account.users.create!(**owner.with_defaults(role: :owner, verified_at: Time.current))
       end
     end
   end

@@ -2,9 +2,10 @@ Rails.application.routes.draw do
   root "events#index"
 
   namespace :account do
+    resource :cancellation, only: [ :create ]
+    resource :entropy
     resource :join_code
     resource :settings
-    resource :entropy
     resources :exports, only: [ :create, :show ]
   end
 
@@ -71,6 +72,7 @@ Rails.application.routes.draw do
 
   resources :cards do
     scope module: :cards do
+      resource :draft, only: :show
       resource :board
       resource :closure
       resource :column
@@ -85,6 +87,7 @@ Rails.application.routes.draw do
       resource :reading
 
       resources :assignments
+      resource :self_assignment, only: :create
       resources :steps
       resources :taggings
 
@@ -93,6 +96,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :tags, only: :index
 
   namespace :notifications do
     resource :settings
@@ -162,6 +167,8 @@ Rails.application.routes.draw do
   resource :landing
 
   namespace :my do
+    resource :identity, only: :show
+    resources :access_tokens
     resources :pins
     resource :timezone
     resource :menu
@@ -235,6 +242,5 @@ Rails.application.routes.draw do
 
   namespace :admin do
     mount MissionControl::Jobs::Engine, at: "/jobs"
-    get "stats", to: "stats#show"
   end
 end
