@@ -43,6 +43,8 @@ env:
     MULTI_TENANT: false # Set to true to allow multiple accounts to sign up
     SOLID_QUEUE_IN_PUMA: true # Run background jobs in the app container
     ACTIVE_STORAGE_SERVICE: s3
+    S3_REQUEST_CHECKSUM_CALCULATION: when_required
+    S3_RESPONSE_CHECKSUM_VALIDATION: when_required
 
 
 #-- General configuration --#
