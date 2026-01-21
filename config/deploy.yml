@@ -1,6 +1,6 @@
 # Name of this app
 service: fizzy
-image: fizzy
+image: simuraepona/fizzy
 
 
 #-- About your deployment --#
@@ -8,16 +8,17 @@ image: fizzy
 # Where to deploy fizzy
 servers:
   web:
-    - fizzy.example.com  # Set your server name here
+    - 5.223.75.120
 
 # How you connect to your server
 ssh:
-  user: root  # If you use a different username to SSH to your server, specify it here
+  user: epona  # If you use a different username to SSH to your server, specify it here
 
 # Automatic SSL
 proxy:
   ssl: true                # Set this to false if you *don't* want SSL
-  host: fizzy.example.com  # Set your server name here to use automatic SSL
+  host: fizzy.epona.me  # Set your server name here to use automatic SSL
+  forward_headers: true
 
 # Your application configuration (secrets come from .kamal/secrets).
 env:
@@ -27,10 +28,12 @@ env:
     - VAPID_PRIVATE_KEY
     - SMTP_USERNAME
     - SMTP_PASSWORD
+    - KAMAL_REGISTRY_PASSWORD
   clear:
-    BASE_URL: https://fizzy.example.com # The public URL of your Fizzy instance
-    MAILER_FROM_ADDRESS: support@example.com # The email "from" address that Fizzy sends email from
-    SMTP_ADDRESS: mail.example.com # The SMTP server you'll use to send email
+    BASE_URL: https://fizzy.epona.me # The public URL of your Fizzy instance
+    MAILER_FROM_ADDRESS: noreply@epona.me # The email "from" address that Fizzy sends email from
+    SMTP_ADDRESS: smtp.resend.com # The SMTP server you'll use to send email
+    SMPT_TLS: true,
     MULTI_TENANT: false # Set to true to allow multiple accounts to sign up
     SOLID_QUEUE_IN_PUMA: true # Run background jobs in the app container
 
@@ -39,7 +42,9 @@ env:
 
 # Use a local registry to deploy
 registry:
-  server: localhost:5555
+  username: simuraepona
+  password:
+    - KAMAL_REGISTRY_PASSWORD
 
 # Handy aliases for interacting with your deployment. For eaxmple: `bin/kamal console` will connect to a
 # Rails console in production.
