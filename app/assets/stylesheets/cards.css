@@ -561,4 +561,21 @@
       text-align: left;
     }
   }
+
+  /* Card Dates (edit form)
+  /* ------------------------------------------------------------------------ */
+
+  .card__dates {
+    margin-block: var(--block-space);
+    padding-block: var(--block-space);
+    border-top: var(--border);
+  }
+
+  .card__date-field {
+    flex: 1;
+
+    .input {
+      max-inline-size: 160px;
+    }
+  }
 }

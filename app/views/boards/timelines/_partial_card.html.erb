@@ -1,0 +1,17 @@
+<% date = card.started_on || card.due_on %>
+<% week_index = @timeline.weeks.index { |w| date >= w && date < w + 1.week } %>
+
+<% if week_index %>
+  <%= link_to card_path(card),
+      class: "timeline__card timeline__card--partial",
+      style: "--card-color: #{card.color}; --column-start: #{week_index + 1}; --column-end: #{week_index + 2}; --row: #{row};" do %>
+    <span class="timeline__card-title overflow-ellipsis"><%= card.title %></span>
+    <span class="timeline__card-dates txt-x-small">
+      <% if card.started_on %>
+        Starts <%= card.started_on.strftime("%b %d") %>
+      <% else %>
+        Due <%= card.due_on.strftime("%b %d") %>
+      <% end %>
+    </span>
+  <% end %>
+<% end %>

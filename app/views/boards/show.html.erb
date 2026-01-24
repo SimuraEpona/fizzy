@@ -14,6 +14,7 @@
   </h1>
 
   <div class="header__actions header__actions--end hide-on-native">
+    <%= link_to "Timeline", board_timeline_path(@board), class: "btn btn--secondary" %>
     <%= link_to_edit_board @board %>
   </div>
 <% end %>

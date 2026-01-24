@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_12_24_092315) do
+ActiveRecord::Schema[8.2].define(version: 2026_01_24_123459) do
   create_table "accesses", id: :uuid, force: :cascade do |t|
     t.datetime "accessed_at"
     t.uuid "account_id", null: false
@@ -206,6 +206,7 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_24_092315) do
     t.date "due_on"
     t.datetime "last_active_at", null: false
     t.bigint "number", null: false
+    t.date "started_on"
     t.string "status", limit: 255, default: "drafted", null: false
     t.string "title", limit: 255
     t.datetime "updated_at", null: false
@@ -213,6 +214,8 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_24_092315) do
     t.index ["account_id", "number"], name: "index_cards_on_account_id_and_number", unique: true
     t.index ["board_id"], name: "index_cards_on_board_id"
     t.index ["column_id"], name: "index_cards_on_column_id"
+    t.index ["started_on", "due_on"], name: "index_cards_on_started_on_and_due_on"
+    t.index ["started_on"], name: "index_cards_on_started_on"
   end
 
   create_table "closers_filters", id: false, force: :cascade do |t|

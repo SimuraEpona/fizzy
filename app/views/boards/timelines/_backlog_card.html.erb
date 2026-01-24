@@ -1,0 +1,9 @@
+<%= link_to card_path(card), class: "timeline__backlog-card", style: "--card-color: #{card.color};" do %>
+  <div class="timeline__backlog-card-color"></div>
+  <div class="timeline__backlog-card-content">
+    <span class="timeline__backlog-card-title overflow-ellipsis"><%= card.title %></span>
+    <% if card.column %>
+      <span class="txt-x-small txt-muted overflow-ellipsis"><%= card.column.name %></span>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,233 @@
+/* Timeline Container */
+.timeline-container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 0;
+  height: calc(100dvh - var(--header-height, 60px) - var(--footer-height));
+  overflow: hidden;
+}
+
+/* Backlog Panel */
+.timeline__backlog {
+  display: flex;
+  flex-direction: column;
+  border-right: var(--border);
+  background: var(--color-canvas);
+}
+
+.timeline__backlog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--block-space) var(--inline-space);
+  border-bottom: var(--border);
+  background: var(--color-ink-lightest);
+}
+
+.timeline__backlog-header .badge {
+  background: var(--color-ink-lighter);
+  color: var(--color-ink-dark);
+  padding: 0.15em 0.5em;
+  border-radius: 1em;
+}
+
+.timeline__backlog-cards {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--block-space-half);
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-space-half);
+}
+
+.timeline__backlog-card {
+  display: flex;
+  align-items: stretch;
+  gap: var(--inline-space-half);
+  padding: var(--block-space-half);
+  background: var(--color-canvas);
+  border: var(--border);
+  border-radius: 0.5em;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s ease;
+}
+
+.timeline__backlog-card:hover {
+  background: var(--color-ink-lightest);
+}
+
+.timeline__backlog-card-color {
+  width: 4px;
+  flex-shrink: 0;
+  border-radius: 2px;
+  background: var(--card-color, var(--color-card-default));
+}
+
+.timeline__backlog-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+  min-width: 0;
+}
+
+.timeline__backlog-card-title {
+  font-weight: 500;
+}
+
+/* Main Timeline Area */
+.timeline__main {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.timeline__header {
+  flex-shrink: 0;
+  border-bottom: var(--border);
+  background: var(--color-ink-lightest);
+}
+
+.timeline__months {
+  display: flex;
+  border-bottom: var(--border);
+}
+
+.timeline__month {
+  flex: var(--weeks);
+  padding: var(--block-space-half) var(--inline-space);
+  border-right: var(--border);
+}
+
+.timeline__month:last-child {
+  border-right: none;
+}
+
+.timeline__weeks {
+  display: flex;
+}
+
+.timeline__week {
+  flex: 1;
+  padding: var(--block-space-half) var(--inline-space-half);
+  text-align: center;
+  border-right: 1px solid var(--color-ink-lighter);
+  min-width: 40px;
+}
+
+.timeline__week:last-child {
+  border-right: none;
+}
+
+.timeline__week--current {
+  background: var(--color-selected-light);
+}
+
+/* Timeline Grid */
+.timeline__grid {
+  flex: 1;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(var(--total-weeks, 6), minmax(40px, 1fr));
+  grid-auto-rows: 3em;
+  gap: 0.25em;
+  padding: var(--block-space-half);
+  position: relative;
+}
+
+.timeline__card {
+  grid-column: var(--column-start) / var(--column-end);
+  grid-row: var(--row);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--inline-space-half);
+  padding: 0.35em 0.75em;
+  background: color-mix(in oklch, var(--card-color, var(--color-card-default)) 15%, var(--color-canvas));
+  border-left: 4px solid var(--card-color, var(--color-card-default));
+  border-radius: 0.35em;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.timeline__card:hover {
+  background: color-mix(in oklch, var(--card-color, var(--color-card-default)) 25%, var(--color-canvas));
+  box-shadow: var(--shadow);
+}
+
+.timeline__card--partial {
+  border-style: dashed;
+  opacity: 0.8;
+}
+
+.timeline__card-title {
+  font-weight: 500;
+  flex: 1;
+  min-width: 0;
+}
+
+.timeline__card-dates {
+  flex-shrink: 0;
+  color: var(--color-ink-dark);
+  white-space: nowrap;
+}
+
+/* Today Marker */
+.timeline__today-marker {
+  position: absolute;
+  grid-column: var(--week);
+  grid-row: 1 / -1;
+  width: 2px;
+  background: var(--color-negative);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.timeline__today-marker::before {
+  content: "Today";
+  position: absolute;
+  top: -1.5em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--text-x-small);
+  color: var(--color-negative);
+  white-space: nowrap;
+}
+
+/* Empty State */
+.timeline__empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--block-space) * 4);
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 799px) {
+  .timeline-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .timeline__backlog {
+    border-right: none;
+    border-bottom: var(--border);
+    max-height: 200px;
+  }
+
+  .timeline__backlog-cards {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .timeline__backlog-card {
+    flex-shrink: 0;
+    min-width: 180px;
+  }
+}

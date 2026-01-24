@@ -1,0 +1,93 @@
+<% @page_title = "#{@board.name} - Timeline" %>
+<% @body_class = "contained-scrolling" %>
+
+<% content_for :header do %>
+  <div class="header__actions header__actions--start hide-on-native">
+    <%= link_to @board, class: "btn btn--secondary" do %>
+      <%= icon_tag "arrow-left" %>
+      Board
+    <% end %>
+  </div>
+
+  <h1 class="header__title divider divider--fade full-width">
+    <span class="overflow-ellipsis"><%= @board.name %> Timeline</span>
+  </h1>
+
+  <div class="header__actions header__actions--end hide-on-native">
+    <%= link_to_edit_board @board %>
+  </div>
+<% end %>
+
+<%= render "filters/settings", filter_url: board_timeline_path(@board), user_filtering: @user_filtering, no_filtering_url: board_timeline_path(@board) do |form| %>
+  <%= hidden_field_tag "board_ids[]", @board.id %>
+<% end %>
+
+<div class="timeline-container">
+  <aside class="timeline__backlog">
+    <header class="timeline__backlog-header">
+      <h2 class="txt-small txt-uppercase txt-muted">Backlog</h2>
+      <span class="badge txt-x-small"><%= @timeline.unscheduled_cards.size %></span>
+    </header>
+
+    <div class="timeline__backlog-cards hide-scrollbar">
+      <% if @timeline.unscheduled_cards.any? %>
+        <% @timeline.unscheduled_cards.each do |card| %>
+          <%= render "boards/timelines/backlog_card", card: card %>
+        <% end %>
+      <% else %>
+        <div class="blank-slate txt-small txt-muted">
+          No unscheduled cards
+        </div>
+      <% end %>
+    </div>
+  </aside>
+
+  <section class="timeline__main">
+    <header class="timeline__header">
+      <div class="timeline__months">
+        <% @timeline.months.each do |month| %>
+          <div class="timeline__month" style="--weeks: <%= month[:weeks] %>;">
+            <span class="txt-small txt-uppercase txt-muted"><%= month[:name] %> <%= month[:date].year %></span>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="timeline__weeks">
+        <% @timeline.weeks.each do |week| %>
+          <div class="timeline__week <%= 'timeline__week--current' if week == Date.current.beginning_of_week %>">
+            <span class="txt-x-small txt-muted"><%= week.day %></span>
+          </div>
+        <% end %>
+      </div>
+    </header>
+
+    <div class="timeline__grid" style="--total-weeks: <%= @timeline.total_weeks %>;">
+      <% if @timeline.scheduled_cards.any? || @timeline.partially_scheduled_cards.any? %>
+        <% row = 1 %>
+        <% @timeline.scheduled_cards.each do |card| %>
+          <% position = @timeline.card_grid_position(card) %>
+          <% if position %>
+            <%= render "boards/timelines/scheduled_card", card: card, position: position, row: row %>
+            <% row += 1 %>
+          <% end %>
+        <% end %>
+
+        <% @timeline.partially_scheduled_cards.each do |card| %>
+          <%= render "boards/timelines/partial_card", card: card, row: row %>
+          <% row += 1 %>
+        <% end %>
+      <% else %>
+        <div class="timeline__empty">
+          <p class="txt-muted">No scheduled cards yet.</p>
+          <p class="txt-small txt-muted">Edit a card to set start and due dates.</p>
+        </div>
+      <% end %>
+
+      <%# Today marker %>
+      <% today_week_index = @timeline.weeks.index { |w| Date.current >= w && Date.current < w + 1.week } %>
+      <% if today_week_index %>
+        <div class="timeline__today-marker" style="--week: <%= today_week_index + 1 %>;"></div>
+      <% end %>
+    </div>
+  </section>
+</div>

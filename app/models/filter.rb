@@ -16,9 +16,9 @@ class Filter < ApplicationRecord
     end
   end
 
-  def cards
+  def cards(scope = nil)
     @cards ||= begin
-      result = creator.accessible_cards.preloaded.published
+      result = scope || creator.accessible_cards.preloaded.published
       result = result.indexed_by(indexed_by)
       result = result.sorted_by(sorted_by)
       result = result.where(id: card_ids) if card_ids.present?

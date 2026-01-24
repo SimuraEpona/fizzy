@@ -1,0 +1,8 @@
+<%= link_to card_path(card),
+    class: "timeline__card",
+    style: "--card-color: #{card.color}; --column-start: #{position[:column_start]}; --column-end: #{position[:column_end]}; --row: #{row};" do %>
+  <span class="timeline__card-title overflow-ellipsis"><%= card.title %></span>
+  <span class="timeline__card-dates txt-x-small">
+    <%= card.started_on.strftime("%b %d") %> - <%= card.due_on.strftime("%b %d") %>
+  </span>
+<% end %>

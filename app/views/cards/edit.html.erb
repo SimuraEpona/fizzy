@@ -22,6 +22,18 @@
       <%= general_prompts(@card.board) %>
     <% end %>
 
+    <div class="card__dates flex gap align-center">
+      <div class="card__date-field flex align-center gap-half">
+        <%= form.label :started_on, "Start", class: "txt-small txt-muted" %>
+        <%= form.date_field :started_on, class: "input" %>
+      </div>
+      <span class="txt-muted">-</span>
+      <div class="card__date-field flex align-center gap-half">
+        <%= form.label :due_on, "Due", class: "txt-small txt-muted" %>
+        <%= form.date_field :due_on, class: "input" %>
+      </div>
+    </div>
+
     <%= link_to "Close editor and discard changes", @card,
           data: { form_target: "cancel", bridge__form_target: "cancel", bridge_title: "Cancel" }, hidden: true %>
   <% end %>
